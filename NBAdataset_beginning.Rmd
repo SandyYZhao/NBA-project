@@ -1,0 +1,31 @@
+```{r}
+library(readr)
+library(ggplot2)
+library(dplyr)
+
+library(readr)
+NBAdata <- read_csv("NBAdata.csv")
+
+```
+
+```{r}
+NBAdata %>% 
+  mutate(Team=as.character(Team)) %>% 
+  ggplot(aes(x=`# Foreign Players`,y=`W/L Ratio`,color=Team))+
+  geom_point()+
+  geom_smooth(method=lm,se=FALSE)
+
+NBAdata %>% 
+  ggplot(aes(x=`# Foreign Players`,y=`W/L Ratio`,color=location))+
+  geom_point()+
+  geom_smooth(method=lm,se=FALSE)
+
+NBAdata %>% 
+  group_by(Team) %>% 
+  mutate(of_de=`Rel ORtg`-`Rel DRtg`) %>% 
+  mutate(team_type=if_else(of_de>0,"offense","defense")) %>% 
+  ggplot(aes(x=`# Foreign Players`,y=`W/L Ratio`,color=team_type))+
+  geom_point()+
+  geom_smooth(method=lm,se=FALSE)
+```
+

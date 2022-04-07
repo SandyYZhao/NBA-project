@@ -9,16 +9,12 @@ NBAdata <- read_csv("NBAdata.csv")
 ```
 
 ```{r}
-NBAdata %>% 
-  mutate(Team=as.character(Team)) %>% 
-  ggplot(aes(x=`# Foreign Players`,y=`W/L Ratio`,color=Team))+
-  geom_point()+
-  geom_smooth(method=lm,se=FALSE)
+#Data is on foreign player numbers and it's influence on W/L ratio for NBA teams.
+#Data is collected from https://pr.nba.com/ and https://www.basketball-reference.com/. 
+```
 
-NBAdata %>% 
-  ggplot(aes(x=`# Foreign Players`,y=`W/L Ratio`,color=location))+
-  geom_point()+
-  geom_smooth(method=lm,se=FALSE)
+
+```{r,fig.alt="a graph showing correlation between number of foreign players in a team and their win and lose ratio categorized by their team type (offense or defense)"}
 
 NBAdata %>% 
   group_by(Team) %>% 
@@ -26,6 +22,9 @@ NBAdata %>%
   mutate(team_type=if_else(of_de>0,"offense","defense")) %>% 
   ggplot(aes(x=`# Foreign Players`,y=`W/L Ratio`,color=team_type))+
   geom_point()+
-  geom_smooth(method=lm,se=FALSE)
+  geom_smooth(method=lm)+
+  labs(title="relatioinship between foreigh player numbers and W/L ratio by team type",
+       x="foreign player number",
+       y="W/L ratio")
 ```
 
